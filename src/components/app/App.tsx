@@ -1,4 +1,7 @@
 import * as React from 'react';
+
+
+import Timer from '../timer/timer';
 import './App.css';
 
 import logo from '../../assets/logo.svg';
@@ -15,6 +18,7 @@ class App extends React.Component {
         {/*<p className="App-intro">*/}
           {/*To get started, edit <code>src/App.tsx</code> and save to reload.*/}
         {/*</p>*/}
+        <Timer/>
       </div>
     );
   }
