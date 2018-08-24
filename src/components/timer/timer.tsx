@@ -37,15 +37,6 @@ class Timer extends React.Component<any, ITimerState> {
             clearInterval(this.state.clock);
         }
     }
-    public padToTwoDigits(x: number) {
-        // TODO: currently not used. causes type errors.
-       if (x < 10) {
-           return `0$x`
-       }
-       else {
-           return x;
-       }
-    }
     public render() {
         const startButtonJSX = <div>
             <button
