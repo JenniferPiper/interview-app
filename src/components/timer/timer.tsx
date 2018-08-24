@@ -1,20 +1,22 @@
-// tslint:disable:no-console
 import * as React from 'react';
 
 import autoBind from '../../utils/utils.js'
 import './timer.css';
 
-interface ITimerState{ timerDisplay: boolean, timeRemaining: number, clock: any}
+interface ITimerState{
+    clock: any,
+    minutesRemaining: number,
+    secondsRemaining: number,
+    timerDisplay: boolean
+}
 class Timer extends React.Component<any, ITimerState> {
     constructor(props: any) {
         super(props);
-
         this.state = {
             clock: null,
-            timeRemaining: 4,
+            minutesRemaining: 30,
+            secondsRemaining: 0,
             timerDisplay: false
-
-
         };
         autoBind.call(this, Timer);
     }
@@ -24,13 +26,25 @@ class Timer extends React.Component<any, ITimerState> {
         this.setState({ clock: clockInstance });
     }
     public handleTimeDecrement() {
-        if (this.state.timeRemaining > 0) {
-            this.setState({timeRemaining: this.state.timeRemaining - 1});
+        if (this.state.secondsRemaining > 0) {
+            this.setState({secondsRemaining: this.state.secondsRemaining - 1});
+        }
+        else if (this.state.minutesRemaining > 0) {
+            this.setState({secondsRemaining: 59});
+            this.setState({minutesRemaining: this.state.minutesRemaining - 1});
         }
         else {
             clearInterval(this.state.clock);
         }
-        console.log('handleTimeDecrement');
+    }
+    public padToTwoDigits(x: number) {
+        // TODO: currently not used. causes type errors.
+       if (x < 10) {
+           return `0$x`
+       }
+       else {
+           return x;
+       }
     }
     public render() {
         const startButtonJSX = <div>
@@ -41,15 +55,12 @@ class Timer extends React.Component<any, ITimerState> {
         </div>;
         const timerJSX = <div>
             <p>Time Remaining:</p>
-            <h2>{this.state.timeRemaining}</h2>
+            <h2>{this.state.minutesRemaining} : {this.state.secondsRemaining}</h2>
 
         </div>;
         return (
             <section className="Timer">
                 {this.state.timerDisplay ? timerJSX : startButtonJSX}
-                {/*{startButtonJSX}*/}
-                {/*{timerJSX}*/}
-
             </section>
         );
     }
